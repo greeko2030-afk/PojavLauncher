@@ -4,10 +4,9 @@ import static net.kdt.pojavlaunch.Architecture.is32BitsDevice;
 import static net.kdt.pojavlaunch.Tools.getTotalDeviceMemory;
 
 import android.os.Bundle;
-import android.widget.TextView;
 
 import androidx.activity.result.ActivityResultLauncher;
-import androidx.preference.EditTextPreference;
+import androidx.preference.Preference;
 
 import net.kdt.pojavlaunch.R;
 import net.kdt.pojavlaunch.Tools;
@@ -15,6 +14,8 @@ import net.kdt.pojavlaunch.contracts.OpenDocumentWithExtension;
 import net.kdt.pojavlaunch.multirt.MultiRTConfigDialog;
 import net.kdt.pojavlaunch.prefs.CustomSeekBarPreference;
 import net.kdt.pojavlaunch.prefs.LauncherPreferences;
+import net.kdt.pojavlaunch.supersonic.JvmArgsDialog;
+import net.kdt.pojavlaunch.supersonic.JvmArgsStore;
 
 public class LauncherPreferenceJavaFragment extends LauncherPreferenceFragment {
     private MultiRTConfigDialog mDialogScreen;
@@ -42,10 +43,14 @@ public class LauncherPreferenceJavaFragment extends LauncherPreferenceFragment {
         memorySeekbar.setValue(ramAllocation);
         memorySeekbar.setSuffix(" MB");
 
-        EditTextPreference editJVMArgs = findPreference("javaArgs");
-        if (editJVMArgs != null) {
-            editJVMArgs.setOnBindEditTextListener(TextView::setSingleLine);
-        }
+        // The JVM arguments: a list that can be added to, edited, deleted from and switched on and off
+        Preference jvmArgs = requirePreference("supersonic_jvm_args_editor");
+        jvmArgs.setSummary(JvmArgsStore.summary(JvmArgsStore.load(LauncherPreferences.DEFAULT_PREF)));
+        jvmArgs.setOnPreferenceClickListener(preference -> {
+            JvmArgsDialog.show(requireContext(), LauncherPreferences.DEFAULT_PREF,
+                    () -> preference.setSummary(JvmArgsStore.summary(JvmArgsStore.load(LauncherPreferences.DEFAULT_PREF))));
+            return true;
+        });
 
         requirePreference("install_jre").setOnPreferenceClickListener(preference->{
             openMultiRTDialog();
