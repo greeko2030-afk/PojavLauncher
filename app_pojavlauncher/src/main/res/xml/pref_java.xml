@@ -11,11 +11,11 @@
             android:summary="@string/multirt_subtitle"
             android:title="@string/multirt_title"/>
 
-        <androidx.preference.EditTextPreference
-            android:dialogTitle="@string/mcl_setting_title_javaargs"
-
-            android:key="javaArgs"
-            android:singleLine="true"
+        <!-- The JVM arguments are a list now (add, edit, delete, on and off). They are still saved in the
+             preference "javaArgs", which is what the launcher reads. The summary is set in the fragment. -->
+        <Preference
+            android:key="supersonic_jvm_args_editor"
+            android:persistent="false"
             android:summary="@string/mcl_setting_subtitle_javaargs"
             android:title="@string/mcl_setting_title_javaargs" />
 
