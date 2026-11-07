@@ -1,0 +1,3 @@
+#!/bin/sh
+# Linux / macOS launcher:  ./ss-internet.sh provider --relay host:8443 --relay-pin ID ...
+exec java -jar "$(dirname "$0")/ssinternet.jar" "$@"

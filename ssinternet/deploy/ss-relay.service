@@ -1,0 +1,22 @@
+# /etc/systemd/system/ss-relay.service  (Linux VPS with a public IP)
+[Unit]
+Description=SS Internet relay
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+User=ssrelay
+WorkingDirectory=/var/lib/ss-relay
+# Self-signed (prints the relay ID in the journal on first start):
+ExecStart=/usr/bin/java -Xmx256m -jar /opt/ss-relay/ssinternet.jar relay --listen 8443 --dir /var/lib/ss-relay
+# With a Let's Encrypt certificate (first: openssl pkcs12 -export -in fullchain.pem -inkey privkey.pem -out relay.p12 -passout pass:CHANGEME):
+# ExecStart=/usr/bin/java -Xmx256m -jar /opt/ss-relay/ssinternet.jar relay --listen 8443 --keystore /var/lib/ss-relay/relay.p12 --storepass CHANGEME
+Restart=always
+RestartSec=3
+NoNewPrivileges=true
+ProtectSystem=strict
+ReadWritePaths=/var/lib/ss-relay
+LimitNOFILE=65536
+
+[Install]
+WantedBy=multi-user.target
