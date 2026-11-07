@@ -46,7 +46,6 @@ import net.kdt.pojavlaunch.progresskeeper.ProgressKeeper;
 import net.kdt.pojavlaunch.progresskeeper.TaskCountListener;
 import net.kdt.pojavlaunch.services.ProgressServiceKeeper;
 import net.kdt.pojavlaunch.tasks.AsyncMinecraftDownloader;
-import net.kdt.pojavlaunch.supersonic.SupersonicRepoMods;
 import net.kdt.pojavlaunch.tasks.AsyncVersionList;
 import net.kdt.pojavlaunch.tasks.MinecraftDownloader;
 import net.kdt.pojavlaunch.utils.DateUtils;
@@ -180,6 +179,7 @@ public class LauncherActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        net.kdt.pojavlaunch.supersonic.ssinternet.SsInternetManager.get(this).onLauncherStart();
         setContentView(R.layout.activity_pojav_launcher);
         FragmentManager fragmentManager = getSupportFragmentManager();
         // If we don't have a back stack root yet...
@@ -195,8 +195,6 @@ public class LauncherActivity extends BaseActivity {
 
 
         IconCacheJanitor.runJanitor();
-        // Check the Supersonic mod repository (new mods are installed into the instances that support them)
-        SupersonicRepoMods.syncAsync(getApplicationContext());
         mRequestNotificationPermissionLauncher = registerForActivityResult(
                 new ActivityResultContracts.RequestPermission(),
                 isAllowed -> {
