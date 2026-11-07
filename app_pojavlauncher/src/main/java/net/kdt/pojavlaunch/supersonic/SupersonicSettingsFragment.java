@@ -22,7 +22,7 @@ import net.kdt.pojavlaunch.prefs.screens.LauncherPreferenceVideoFragment;
 public class SupersonicSettingsFragment extends Fragment {
     public static final String TAG = "SupersonicSettingsFragment";
 
-    private static final String[] TABS = {"General", "Performance", "Minecraft", "Controls", "Launcher", "Privacy", "Advanced"};
+    private static final String[] TABS = {"General", "Performance", "Minecraft", "Controls", "Launcher", "Privacy", "SS Internet", "Advanced"};
     private static final String STATE_TAB = "tab";
     private int mTab = 0;
 
@@ -55,7 +55,8 @@ public class SupersonicSettingsFragment extends Fragment {
             case 3: fragment = new LauncherPreferenceControlFragment(); break;
             case 4: fragment = new LauncherPreferenceMiscellaneousFragment(); break;
             case 5: fragment = new SupersonicPrivacyFragment(); break;
-            case 6: fragment = new LauncherPreferenceExperimentalFragment(); break;
+            case 6: fragment = new net.kdt.pojavlaunch.supersonic.ssinternet.SsInternetFragment(); break;
+            case 7: fragment = new LauncherPreferenceExperimentalFragment(); break;
             default: fragment = new LauncherPreferenceFragment();
         }
         getChildFragmentManager().beginTransaction()
