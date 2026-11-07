@@ -227,5 +227,8 @@ dependencies {
 
     // implementation 'net.sourceforge.streamsupport:streamsupport-cfuture:1.7.0'
 
+    // SS Internet: networking core (pure Java, shared with the desktop jar and the relay server)
+    implementation project(':ssinternet')
+
     implementation fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
 }
