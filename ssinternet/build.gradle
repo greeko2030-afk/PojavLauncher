@@ -1,1 +1,32 @@
+plugins {
+    id 'java-library'
+}
 
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+}
+
+// Runnable jar for Windows / Linux / macOS and for the relay server:
+//   ./gradlew :ssinternet:jar  ->  ssinternet/build/libs/ssinternet.jar
+jar {
+    archiveBaseName = 'ssinternet'
+    archiveVersion = ''
+    manifest {
+        attributes('Main-Class': 'com.supersonic.ssinternet.cli.SsCli')
+    }
+}
+
+// End-to-end test with real sockets and real TLS:  ./gradlew :ssinternet:e2e
+sourceSets {
+    e2e {
+        java.srcDir 'src/test/java'
+        compileClasspath += sourceSets.main.output
+        runtimeClasspath += sourceSets.main.output
+    }
+}
+
+tasks.register('e2e', JavaExec) {
+    classpath = sourceSets.e2e.runtimeClasspath
+    mainClass = 'com.supersonic.ssinternet.E2ETest'
+}
