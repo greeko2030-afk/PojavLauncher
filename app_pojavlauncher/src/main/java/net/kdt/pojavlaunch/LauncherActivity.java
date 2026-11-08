@@ -180,6 +180,8 @@ public class LauncherActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         net.kdt.pojavlaunch.supersonic.ssinternet.SsInternetManager.get(this).onLauncherStart();
+        // Checks the Supersonic mod repository in the background and installs new or changed mods
+        net.kdt.pojavlaunch.supersonic.SupersonicRepoMods.syncAsync(this);
         setContentView(R.layout.activity_pojav_launcher);
         FragmentManager fragmentManager = getSupportFragmentManager();
         // If we don't have a back stack root yet...
